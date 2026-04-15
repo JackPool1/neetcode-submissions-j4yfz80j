@@ -1,0 +1,46 @@
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int s1L = s1.length();
+        int s2L = s2.length();
+
+        if(s1L > s2L) return false;
+
+        int s1Count[] = new int[26];
+        int s2Count[] = new int[26];
+
+        for(int i = 0; i < s1L; i++){
+            s1Count[s1.charAt(i) - 'a' ]++;
+            s2Count[s2.charAt(i) - 'a']++;
+        }
+        int matches = 0;
+        for(int i = 0; i < 26; i++){
+            if(s1Count[i] == s2Count[i]){
+                matches++;
+            }
+        }
+
+        int l = 0;
+        for(int i = s1L; i < s2L; i++){
+            if(matches == 26) return true;
+
+            int index = s2.charAt(i) - 'a';
+            s2Count[index]++;
+            if(s1Count[index] == s2Count[index]){
+                matches++;
+            }else if(s1Count[index] + 1 == s2Count[index]){
+                matches--;
+            }
+
+            index = s2.charAt(l) - 'a';
+            s2Count[index]--;
+            if(s1Count[index] == s2Count[index]){
+                matches++;
+            }else if(s1Count[index] - 1 == s2Count[index]){
+                matches--;
+            }
+            l++;
+        }
+        
+        return matches == 26;
+    }
+}
